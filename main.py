@@ -1,4 +1,4 @@
-from ingredients import getIngredients
+from ingredients import getIngredients, getPrice
 from speech import item
 
 # item = input("What food do you want to make?\n")
@@ -10,3 +10,4 @@ print("Estimated Calories:", food_info['nutrition'])
 
 for i, k in enumerate(food_info['ingredients']):
     print(str(i+1)+" -", k)
+
