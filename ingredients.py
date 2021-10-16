@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
-searchTerms = "pizza"
+searchTerms = input("What food do you want to make?\n")
 service = Service(ChromeDriverManager().install())
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
