@@ -30,7 +30,6 @@ def getIngredients(search_Terms):
     for k in range(len(ingredients)):
         ingredients_list.append(ingredients[k].text)
 
-    for k in ingredients_list:
-        print(k)
+    browser.quit()
 
     return ingredients_list
