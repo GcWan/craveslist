@@ -3,7 +3,7 @@ import websockets
 import asyncio
 import base64
 import json
- 
+
 FRAMES_PER_BUFFER = 3200
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
@@ -26,7 +26,7 @@ async def send_receive():
    print(f'Connecting websocket to url ${URL}')
    async with websockets.connect(
        URL,
-       extra_headers=(("Authorization", "a2007d1ec0f84783b584620c819e3a4d"),),
+       extra_headers=(("Authorization", "7bb8cc205d894cb5986612769bb4ba61"),),
        ping_interval=5,
        ping_timeout=20
    ) as _ws:
@@ -66,4 +66,5 @@ async def send_receive():
       
        send_result, receive_result = await asyncio.gather(send(), receive())
 
+# Sends messages via audio
 asyncio.run(send_receive())
