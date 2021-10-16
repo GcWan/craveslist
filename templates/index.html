@@ -14,5 +14,16 @@
 <form action="" method="post">
     <input type="submit" value="Voice Input">
 </form>
+<h2>{{ name }}</h2>
+<h3>{{ time }}</h3>
+<h3>{{ nutrition }}</h3>
+<table>
+    {% for item, price in result %}
+    <tr>
+        <td> {{ item }} </td>
+        <td> {{ price }}</td>
+    </tr>
+    {% endfor %}
+</table>
 </body>
 </html>
