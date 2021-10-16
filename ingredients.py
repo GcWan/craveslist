@@ -14,6 +14,9 @@ chrome_options.add_experimental_option("detach", True)
 browser = webdriver.Chrome(service=service, options=chrome_options)
 browser.maximize_window()
 browser.get("https://www.yummly.com/recipes")
-searchBar = browser.find_element(By.XPATH, "//input[@id='searchbox-input']")
+WebDriverWait(browser, 2).until(EC.presence_of_element_located((By.ID, "searchbox-input")))
+searchBar = browser.find_element(By.ID, "searchbox-input")
 searchBar.send_keys(searchTerms)
 searchBar.send_keys(Keys.ENTER)
+
+
