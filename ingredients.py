@@ -2,15 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 def getIngredients(search_terms):
     # Initializes Chrome Driver
-    service = Service(ChromeDriverManager().install())
-    chrome_options = Options().add_experimental_option("detach", True)
+    service = webdriver.chrome.service.Service(ChromeDriverManager().install())
+    chrome_options = webdriver.chrome.options.Options().add_experimental_option("detach", True)
     browser = webdriver.Chrome(service=service, options=chrome_options)
     browser.maximize_window()
 
@@ -22,8 +21,10 @@ def getIngredients(search_terms):
     searchBar.send_keys(Keys.ENTER)
 
     # Waits until results appear then select the first one
-    WebDriverWait(browser, 1).until(EC.presence_of_element_located((By.XPATH, "//div[@class='recipe-card-img-wrapper']")))
-    firstItem = browser.find_element(By.XPATH, "//div[@class='recipe-card-img-wrapper']").find_element(By.TAG_NAME, "a")
+    WebDriverWait(browser, 1).until(
+        EC.presence_of_element_located((By.XPATH, "//div[@class='recipe-card-img-wrapper']")))
+    firstItem = browser.find_element(By.XPATH, "//div[@class='recipe-card-img-wrapper']")\
+        .find_element(By.TAG_NAME, "a")
     browser.execute_script("arguments[0].click();", firstItem)
 
     # Waits until ingredients load then collects all of the ingredients
