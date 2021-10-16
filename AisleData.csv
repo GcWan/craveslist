@@ -1,4 +1,4 @@
-Ingredients,In stock? ,Location
+Ingredients,Stock,Location
 flour,1,Baking Aisle
 shredded mozzarella cheese,1,Baking Aisle
 shredded cheddar cheese,1,Baking Aisle
@@ -15,11 +15,11 @@ warm water,1,Beverage Aisle
 hot water,1,Beverage Aisle
 apple juice,1,Beverage Aisle
 orange juice,1,Beverage Aisle
-tomato juice ,1,Beverage Aisle
+tomato juice,1,Beverage Aisle
 juice,1,Beverage Aisle
 cranberry juice,1,Beverage Aisle
 fresh lime juice,0,Beverage Aisle
-beer ,1,Beverage Aisle
+beer,1,Beverage Aisle
 white wine,1,Beverage Aisle
 mirin,1,Beverage Aisle
 tomato paste,1,Canned Foods Aisle 
@@ -29,8 +29,8 @@ chicken base,1,Canned Foods Aisle
 corn niblets,1,Canned Foods Aisle 
 salsa,1,Canned Foods Aisle 
 olive oil,1,Condiment Aisle
-salt ,1,Condiment Aisle
-pepper ,1,Condiment Aisle
+salt,1,Condiment Aisle
+pepper,1,Condiment Aisle
 smoked paprika,1,Condiment Aisle
 pizza sauce,0,Condiment Aisle
 ground black pepper,1,Condiment Aisle
