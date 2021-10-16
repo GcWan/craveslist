@@ -26,6 +26,8 @@ async def send_receive(trigger):
         async def send():
             while True:
                 try:
+                    if task.done():
+                        return True
                     data = stream.read(FRAMES_PER_BUFFER)
                     data = base64.b64encode(data).decode("utf-8")
                     json_data = json.dumps({"audio_data":str(data)})
@@ -47,8 +49,8 @@ async def send_receive(trigger):
                     text = json.loads(result_str)['text']
                     print(text)
                     if trigger in text:
-                        item = analyze(text, trigger)
-                        return item
+                        substring = analyze(text, trigger)
+                        return substring
                 except websockets.exceptions.ConnectionClosedError as e:
                     print(e)
                     assert e.code == 4008
@@ -56,6 +58,7 @@ async def send_receive(trigger):
                 except Exception as e:
                     assert False, "Not a websocket 4008 error"
         
-        send_result, item = await asyncio.gather(send(), receive())
-        
+        task = asyncio.create_task(receive())
+        send_result, item = await asyncio.gather(send(), task)
+
     return item
