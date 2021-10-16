@@ -39,6 +39,7 @@ def getPrice(ingredients_to_input):
 
     return price_list
 
+
 def getIngredients(search_terms):
     # Initializes Chrome Driver
     service = webdriver.chrome.service.Service(ChromeDriverManager().install())
@@ -64,7 +65,7 @@ def getIngredients(search_terms):
     # Waits until results appear then select the first one
     WebDriverWait(browser, 3).until(
         EC.presence_of_element_located((By.XPATH, "//div[@class='recipe-card-img-wrapper']")))
-    firstItem = browser.find_element(By.XPATH, "//div[@class='recipe-card-img-wrapper']")\
+    firstItem = browser.find_element(By.XPATH, "//div[@class='recipe-card-img-wrapper']") \
         .find_element(By.TAG_NAME, "a")
     browser.execute_script("arguments[0].click();", firstItem)
     print("Retrieving results...")
