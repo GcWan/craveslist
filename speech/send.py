@@ -8,7 +8,7 @@ from stream import *
  
 # the AssemblyAI endpoint we're going to hit
 URL = "wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000"
- 
+
 async def send_receive(trigger):
     item = ""
     print(f'Connecting websocket to url ${URL}')
@@ -48,8 +48,7 @@ async def send_receive(trigger):
                     print(text)
                     if trigger in text:
                         item = analyze(text, trigger)
-                        print(item)
-                        break
+                        return item
                 except websockets.exceptions.ConnectionClosedError as e:
                     print(e)
                     assert e.code == 4008
