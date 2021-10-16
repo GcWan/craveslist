@@ -9,30 +9,32 @@ from webdriver_manager.chrome import ChromeDriverManager
 def getPrice(ingredients_to_input):
     # Initializes Chrome Driver
     service1 = webdriver.chrome.service.Service(ChromeDriverManager().install())
-    chrome_options1 = webdriver.chrome.options.Options().add_experimental_option("detach", True)
-    browser1 = webdriver.Chrome(service=service1, options=chrome_options1)
+    chrome_options = webdriver.chrome.options.Options().add_experimental_option("detach", True)
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('window-size=1920x1080')
+    chrome_options.add_argument("disable-gpu")
+    browser = webdriver.Chrome(service=service1, options=chrome_options)
 
-    browser1.maximize_window()
-    browser1.get("https://www.loblaws.ca/")
+    browser.get("https://www.loblaws.ca/")
 
-    WebDriverWait(browser1, 3).until(EC.presence_of_element_located((By.CLASS_NAME, "search-input__input")))
+    WebDriverWait(browser, 3).until(EC.presence_of_element_located((By.CLASS_NAME, "search-input__input")))
     price_list = []
 
     for ingredient in ingredients_to_input:
         search_item = ingredient
 
         # Enters ingredients
-        searchBox = browser1.find_element(By.CLASS_NAME, "search-input__input")
+        searchBox = browser.find_element(By.CLASS_NAME, "search-input__input")
         searchBox.send_keys(Keys.COMMAND + "a")
         searchBox.send_keys(Keys.DELETE)
         searchBox.send_keys(search_item)
         searchBox.send_keys(Keys.ENTER)
 
         # Extracts price
-        WebDriverWait(browser1, 3).until(EC.presence_of_element_located(
+        WebDriverWait(browser, 3).until(EC.presence_of_element_located(
             (By.XPATH, "//span[@class='price selling-price-list__item__price "
                        "selling-price-list__item__price--now-price']")))
-        price = browser1.find_element(
+        price = browser.find_element(
             By.XPATH, "//span[@class='price selling-price-list__item__price "
                       "selling-price-list__item__price--now-price']").text
         price_list.append(price)

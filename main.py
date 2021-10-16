@@ -10,8 +10,5 @@ print("Approx preparation time:", food_info['time'])
 print("Estimated Calories:", food_info['nutrition'])
 
 for i, k in enumerate(food_info['ingredients']):
-    print(str(i+1)+" -", k)
-
-for k in price_info:
-    print(k)
+    print(str(i+1)+" -", k, "-", price_info[i])
 
