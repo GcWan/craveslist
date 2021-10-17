@@ -1,12 +1,13 @@
 html{
-    background: url(../logo.png) no-repeat center center fixed, #201E20;
-    background-size: 30%;
-    display: inline-block;
+	background-size: 30%;
+	background: #201E20 url(../logo.png) no-repeat local center -66%;
+	display: inline-block;
+	overflow-x: hidden;
 }
+
 h1 {
     color: #ffffff;
-    font-family: 'Raleway',
-    sans-serif;
+    font-family: 'Oxygen', sans-serif;
     font-size: 62px;
     font-weight: 800;
     line-height: 72px;
@@ -157,12 +158,18 @@ button {
 }
 
 #info{
+	font-family: 'Oxygen', sans-serif;
 	position: absolute;
-	top: 100%;
+	top: 110%;
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	margin: auto;
 	text-align: center;
 	padding: 10px;
 	color: white
+}
+
+table{
+	margin-left: auto;
+	margin-right: auto;
 }

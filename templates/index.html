@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" id="html">
 <head>
     <meta charset="UTF-8">
     <title>CravesList</title>
     <link rel="stylesheet" href="../static/css/index.css">
 </head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Oxygen:wght@700&display=swap');
+</style>
 <script src="https://kit.fontawesome.com/afd6aa68df.js" crossorigin="anonymous"></script>
 <body>
     <div class="header">
@@ -17,7 +20,7 @@
             <i class="fas fa-search"></i>
         </div>
         <button type="submit" name="submit_button" value="Get Ingredients"
-               onclick="document.getElementById('loading').style.display='block';
+               onclick="document.getElementById('html').style.backgroundImage = 'url(static/loading.gif)';
                document.getElementById('info').style.display='none';"
                 style="left: 10%; top: 80%">Get Ingredients</button>
     </form>
@@ -42,4 +45,9 @@
         </table>
     </div>
 </body>
+{% if scroll %}
+<script>
+    document.getElementById('{{ scroll }}').scrollIntoView();
+</script>
+{% endif %}
 </html>

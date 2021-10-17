@@ -14,7 +14,7 @@ def index():
         if 'submit_button' in request.args:
             item = str(escape(request.args.get("item", "")))
             if not item:
-                return render_template("index.html", time="Please enter a search term")
+                return render_template("index.html", time="Please enter a search term", scroll="info")
         else:
             return render_template("index.html")
     else:
@@ -32,6 +32,7 @@ def index():
             name="Ingredients for: " + food_info['name'],
             time="Approximate preparation time: " + food_info['time'],
             nutrition="Estimated Calories: " + food_info['nutrition'],
+            scroll="info"
         )
     )
 
