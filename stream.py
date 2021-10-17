@@ -28,6 +28,7 @@ sampleRate = 44100
 bitsPerSample = 16
 channels = 2
 wav_header = genHeader(sampleRate, bitsPerSample, channels)
+
  
 # starts recording
-stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, input_device_index=1, frames_per_buffer=FRAMES_PER_BUFFER)
+stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=FRAMES_PER_BUFFER)
