@@ -23,13 +23,17 @@ def index():
             )
     elif request.method == 'POST':
         print("Listening...")
-        food_info = asyncio.run(send_receive("ingredients"))
+        item = asyncio.run(send_receive("ingredients"))
+        food_info = getIngredients(item)
+        price_info = getPrice(food_info['ingredients'])
         return (
-            render_template("index.html")
-            + "<br>Ingredients for: " + food_info['name']
-            + "<br>Approximate preparation time: " + food_info['time']
-            + "<br>Estimated Calories: " + food_info['nutrition'] + "<br>"
-            + "<br>".join([str(i + 1) + ": " + k for i, k in enumerate(food_info['ingredients'])])
+            render_template(
+                "index.html",
+                result=[[food_info['ingredients'][i], price_info[i]] for i in range(len(price_info))],
+                name="Ingredients for: " + food_info['name'],
+                time="Approximate preparation time: " + food_info['time'],
+                nutrition="Estimated Calories: " + food_info['nutrition']
+            )
         )
     return render_template("index.html")
 
