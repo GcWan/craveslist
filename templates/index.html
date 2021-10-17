@@ -19,14 +19,14 @@
             <input type="text" class="input" name="item">
             <i class="fas fa-search"></i>
         </div>
-        <button type="submit" name="submit_button" value="Get Ingredients"
+        <button type="submit" name="get_ingredients" value="Get Ingredients"
                onclick="document.getElementById('html').style.backgroundImage = 'url(static/loading.gif)';
                document.getElementById('info').style.display='none';"
                 style="left: 10%; top: 80%">Get Ingredients</button>
     </form>
     <br>
     <form action="" method="post">
-        <button type="submit" value="Voice Input"
+        <button type="submit" name="voice_input" value="Voice Input"
                 style="right: 10%; top: 80%">Voice Input</button>
     </form>
     <img src="../static/loading.gif" id="loading" style="display:none;">

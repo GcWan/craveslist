@@ -1,15 +1,91 @@
 from ingredients import getIngredients, getPrice
 import aisleRead
-from send import send_receive
 import asyncio
+import base64
+import json
+
+import websockets
 from flask import Flask, render_template, request, escape, Response
 
+import aisleRead
+from analyze import analyze
+from configure import auth_key
+from ingredients import getIngredients, getPrice
+from stream import *
 
+# the AssemblyAI endpoint we're going to hit
+URL = "wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000"
 app = Flask(__name__)
 
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
+    async def send_receive(trigger):
+        print(f'Connecting websocket to url ${URL}')
+        async with websockets.connect(
+                URL,
+                extra_headers=(("Authorization", auth_key),),
+                ping_interval=5,
+                ping_timeout=20
+        ) as _ws:
+            await asyncio.sleep(0.1)
+            print("Receiving SessionBegins ...")
+            session_begins = await _ws.recv()
+            print(session_begins)
+            print("Sending messages ...")
+
+            async def send():
+                first_run = True
+                while True:
+                    try:
+                        if task.done():
+                            return True
+                        if first_run:
+                            data = wav_header + stream.read(CHUNK)
+                            first_run = False
+                        else:
+                            data = stream.read(CHUNK)
+                        data = base64.b64encode(data).decode("utf-8")
+                        json_data = json.dumps({"audio_data": str(data)})
+                        await _ws.send(json_data)
+                    except websockets.exceptions.ConnectionClosedError as e:
+                        print(e)
+                        assert e.code == 4008
+                        break
+                    except Exception as e:
+                        assert False, "Not a websocket 4008 error"
+                    await asyncio.sleep(0.01)
+
+            async def receive():
+                while True:
+                    try:
+                        result_str = await _ws.recv()
+                        text = json.loads(result_str)['text']
+                        print(text)
+                        if trigger in text:
+                            substring = analyze(text, trigger)
+                            return substring
+                    except websockets.exceptions.ConnectionClosedError as e:
+                        print(e)
+                        assert e.code == 4008
+                        break
+                    except Exception as e:
+                        assert False, "Not a websocket 4008 error"
+
+        task = asyncio.create_task(receive())
+        send_result, substring = await asyncio.gather(send(), task)
+        return substring
+
+    if request.method == 'GET':
+        print("get ingredients pressed")
+        item = str(escape(request.args.get("item", "")))
+        if not item:
+            return render_template("index.html", time="Please enter a search term")
+    elif request.method == 'POST':
+        print("voice input pressed")
+        item = send_receive("ingredients")
+    else:
+        return render_template("index.html")
     if request.method == 'GET':
         if 'submit_button' in request.args:
             item = str(escape(request.args.get("item", "")))
@@ -37,19 +113,6 @@ def index():
     )
 
 
-# @app.route('/audio')
-# def audio():
-#     return Response(sound())
-
-# import time
-#
-# @app.route('/yield')
-# def test():
-#     def inner():
-#         for x in range(100):
-#             time.sleep(1)
-#             yield '%s<br/>\n' % x
-#     return Response(inner(), mimetype='text/html')  # text/html is required for most browsers to show the partial page immediately
 
 if __name__ == "__main__":
     app.run(debug=True)
