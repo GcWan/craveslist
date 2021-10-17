@@ -84,7 +84,7 @@ def index():
             return render_template("index.html")
     else:
         print("voice input pressed")
-        item = send_receive("ingredients")
+        item = asyncio.run(send_receive("ingredients"))
     food_info = getIngredients(item)
     ingredients = food_info['ingredients']
     price_info = getPrice(ingredients)
