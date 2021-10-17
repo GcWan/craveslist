@@ -1,20 +1,53 @@
-from aisleRead import find
 from ingredients import getIngredients, getPrice
-# from speech import item
+from send import send_receive
+import asyncio
+from flask import Flask, render_template, request, escape
 
+app = Flask(__name__)
 
-item = input("What food do you want to make?\n")
-food_info = getIngredients(item)
-price_info = getPrice(food_info['ingredients'])
+@app.route("/", methods=['GET', 'POST'])
+def index():
+    if request.method == 'GET':
+        item = str(escape(request.args.get("item", "")))
+        if item:
+            food_info = getIngredients(item)
+            price_info = getPrice(food_info['ingredients'])
+            return (
+                render_template(
+                    "index.html",
+                    result=[[food_info['ingredients'][i], price_info[i]] for i in range(len(price_info))],
+                    name="Ingredients for: " + food_info['name'],
+                    time="Approximate preparation time: " + food_info['time'],
+                    nutrition="Estimated Calories: " + food_info['nutrition']
+                )
+            )
+    elif request.method == 'POST':
+        print("Listening...")
+        item = asyncio.run(send_receive("ingredients"))
+        food_info = getIngredients(item)
+        price_info = getPrice(food_info['ingredients'])
+        return (
+            render_template(
+                "index.html",
+                result=[[food_info['ingredients'][i], price_info[i]] for i in range(len(price_info))],
+                name="Ingredients for: " + food_info['name'],
+                time="Approximate preparation time: " + food_info['time'],
+                nutrition="Estimated Calories: " + food_info['nutrition']
+            )
+        )
+    return render_template("index.html")
 
-print("\nIngredients for:", food_info['name'])
-print("Approx preparation time:", food_info['time'])
-print("Estimated Calories:", food_info['nutrition'])
+# import time
+#
+# @app.route('/yield')
+# def test():
+#     def inner():
+#         for x in range(100):
+#             time.sleep(1)
+#             yield '%s<br/>\n' % x
+#     return Response(inner(), mimetype='text/html')  # text/html is required for most browsers to show the partial page immediately
 
-for i, k in enumerate(food_info['ingredients']):
-    print(str(i+1)+" -", k, "-", price_info[i]+" -", find(k))
+app.run(debug=True)
 
-
-
-
-
+if __name__ == "__main__":
+    app.run(host="127.0.0.1", port=8080, debug=True)
