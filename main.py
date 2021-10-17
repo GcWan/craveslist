@@ -1,7 +1,7 @@
 from ingredients import getIngredients, getPrice
 from send import send_receive
 import asyncio
-from flask import Flask, render_template, request, escape
+from flask import Flask, render_template, request, escape, Response
 
 app = Flask(__name__)
 
@@ -36,6 +36,10 @@ def index():
             )
         )
     return render_template("index.html")
+
+# @app.route('/audio')
+# def audio():
+#     return Response(sound())
 
 # import time
 #

@@ -28,7 +28,12 @@ async def send_receive(trigger):
                 try:
                     if task.done():
                         return True
-                    data = stream.read(FRAMES_PER_BUFFER)
+                    first_run = True
+                    if first_run:
+                        data = wav_header + stream.read(FRAMES_PER_BUFFER)
+                        first_run = False
+                    else:
+                        data = stream.read(FRAMES_PER_BUFFER)
                     data = base64.b64encode(data).decode("utf-8")
                     json_data = json.dumps({"audio_data":str(data)})
                     await _ws.send(json_data)
