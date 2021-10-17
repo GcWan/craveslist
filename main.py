@@ -1,5 +1,3 @@
-from ingredients import getIngredients, getPrice
-import aisleRead
 import asyncio
 import base64
 import json
@@ -78,24 +76,15 @@ def index():
 
     if request.method == 'GET':
         print("get ingredients pressed")
-        item = str(escape(request.args.get("item", "")))
-        if not item:
-            return render_template("index.html", time="Please enter a search term")
-    elif request.method == 'POST':
-        print("voice input pressed")
-        item = send_receive("ingredients")
-    else:
-        return render_template("index.html")
-    if request.method == 'GET':
-        if 'submit_button' in request.args:
+        if 'get_ingredients' in request.args:
             item = str(escape(request.args.get("item", "")))
             if not item:
-                return render_template("index.html", time="Please enter a search term", scroll="info")
+                return render_template("index.html", warning="Please enter a search term.")
         else:
             return render_template("index.html")
     else:
-        print("Listening...")
-        item = asyncio.run(send_receive("ingredients"))
+        print("voice input pressed")
+        item = send_receive("ingredients")
     food_info = getIngredients(item)
     ingredients = food_info['ingredients']
     price_info = getPrice(ingredients)
