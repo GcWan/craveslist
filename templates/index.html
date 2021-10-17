@@ -5,21 +5,26 @@
     <title>CravesList</title>
     <link rel="stylesheet" href="../static/css/index.css">
 </head>
+<script src="https://kit.fontawesome.com/afd6aa68df.js" crossorigin="anonymous"></script>
 <body>
     <div class="header">
-        <img src="../static/logo.jpg" alt="CravesList Logo" width=100 height=100 class="logo">
         <h1>CRAVESLIST</h1>
     </div>
-    <form action="" method="get">
-        What would you like to make? <br>
-        <input type="text" name="item">
-        <input type="submit" name="submit_button" value="Get Ingredients"
+
+    <form action="" method="get" name="search">
+        <div class="box">
+            <input type="text" class="input" name="item">
+            <i class="fas fa-search"></i>
+        </div>
+        <button type="submit" name="submit_button" value="Get Ingredients"
                onclick="document.getElementById('loading').style.display='block';
-               document.getElementById('info').style.display='none';">
+               document.getElementById('info').style.display='none';"
+                style="left: 10%; top: 80%">Get Ingredients</button>
     </form>
     <br>
     <form action="" method="post">
-        <input type="submit" value="Voice Input">
+        <button type="submit" value="Voice Input"
+                style="right: 10%; top: 80%">Voice Input</button>
     </form>
     <img src="../static/loading.gif" id="loading" style="display:none;">
     <div id="info">

@@ -89,7 +89,7 @@ def getPrice(ingredients_to_input):
 
         # Extracts price
         print("Getting price for", ingredient)
-        WebDriverWait(browser, 3).until(EC.presence_of_element_located(
+        WebDriverWait(browser, 5).until(EC.presence_of_element_located(
             (By.XPATH, "//span[@class='price selling-price-list__item__price "
                        "selling-price-list__item__price--now-price']")))
         price = browser.find_element(
