@@ -19,16 +19,14 @@ def genHeader(sampleRate, bitsPerSample, channels):
     return o
 
 
-FRAMES_PER_BUFFER = 3200
-FORMAT = pyaudio.paInt16
+BITS = 16
 CHANNELS = 1
-RATE = 16000
+CHUNK = 1024
+FORMAT = pyaudio.paInt16
+RATE = 88200
 p = pyaudio.PyAudio()
-sampleRate = 44100
-bitsPerSample = 16
-channels = 2
-wav_header = genHeader(sampleRate, bitsPerSample, channels)
-
+wav_header = genHeader(RATE, BITS, CHANNELS)
  
-# starts recording
-stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=FRAMES_PER_BUFFER)
+# Starts recording
+stream = p.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True, input_device_index=0, frames_per_buffer=CHUNK)
+print("Recording...")
