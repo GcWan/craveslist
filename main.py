@@ -4,7 +4,9 @@ from send import send_receive
 import asyncio
 from flask import Flask, render_template, request, escape, Response
 
+
 app = Flask(__name__)
+
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -33,6 +35,7 @@ def index():
         )
     )
 
+
 # @app.route('/audio')
 # def audio():
 #     return Response(sound())
@@ -50,4 +53,4 @@ def index():
 app.run(debug=True)
 
 if __name__ == "__main__":
-    app.run(host="127.0.0.1", port=8080, debug=True)
+    app.run(debug=True)
