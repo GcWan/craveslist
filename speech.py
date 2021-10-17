@@ -6,6 +6,9 @@ from analyze import analyze
 from configure import auth_key
 import pyaudio
 
+from aisleRead import find
+from ingredients import getIngredients, getPrice
+
 FRAMES_PER_BUFFER = 3200
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
@@ -77,3 +80,12 @@ async def send_receive(trigger):
 if __name__ == "__main__":
     item = asyncio.run(send_receive("ingredients"))
     print(item)
+    food_info = getIngredients(item)
+    price_info = getPrice(food_info['ingredients'])
+
+    print("\nIngredients for:", food_info['name'])
+    print("Approx preparation time:", food_info['time'])
+    print("Estimated Calories:", food_info['nutrition'])
+
+    for i, k in enumerate(food_info['ingredients']):
+        print(str(i + 1) + ":", k, "-", price_info[i] + " -", find(k))
