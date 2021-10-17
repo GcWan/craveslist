@@ -25,46 +25,47 @@ async def send_receive(trigger):
         print(session_begins)
         print("Sending messages ...")
 
-        async def send():
-            first_run = True
-            while True:
-                try:
-                    if task.done():
-                        return True
-                    if first_run:
-                        data = wav_header + stream.read(CHUNK)
-                        first_run = False
-                    else:
-                        data = stream.read(CHUNK)
-                    data = base64.b64encode(data).decode("utf-8")
-                    json_data = json.dumps({"audio_data": str(data)})
-                    await _ws.send(json_data)
-                except websockets.exceptions.ConnectionClosedError as e:
-                    print(e)
-                    assert e.code == 4008
-                    break
-                except Exception as e:
-                    assert False, "Not a websocket 4008 error"
-                await asyncio.sleep(0.01)
-            return True
-
-        async def receive():
-            while True:
-                try:
-                    result_str = await _ws.recv()
-                    text = json.loads(result_str)['text']
-                    print(text)
-                    if trigger in text:
-                        substring = analyze(text, trigger)
-                        return substring
-                except websockets.exceptions.ConnectionClosedError as e:
-                    print(e)
-                    assert e.code == 4008
-                    break
-                except Exception as e:
-                    assert False, "Not a websocket 4008 error"
-
-        task = asyncio.create_task(receive())
-        send_result, item = await asyncio.gather(send(), task)
+        # async def send():
+        #     first_run = True
+        #     while True:
+        #         try:
+        #             if task.done():
+        #                 return True
+        #             if first_run:
+        #                 data = wav_header + stream.read(CHUNK)
+        #                 first_run = False
+        #             else:
+        #                 data = stream.read(CHUNK)
+        #             data = base64.b64encode(data).decode("utf-8")
+        #             json_data = json.dumps({"audio_data": str(data)})
+        #             await _ws.send(json_data)
+        #         except websockets.exceptions.ConnectionClosedError as e:
+        #             print(e)
+        #             assert e.code == 4008
+        #             break
+        #         except Exception as e:
+        #             assert False, "Not a websocket 4008 error"
+        #         await asyncio.sleep(0.01)
+        #     return True
+        #
+        # async def receive():
+        #     while True:
+        #         try:
+        #             result_str = await _ws.recv()
+        #             text = json.loads(result_str)['text']
+        #             print(text)
+        #             if trigger in text:
+        #                 substring = analyze(text, trigger)
+        #                 return substring
+        #         except websockets.exceptions.ConnectionClosedError as e:
+        #             print(e)
+        #             assert e.code == 4008
+        #             break
+        #         except Exception as e:
+        #             assert False, "Not a websocket 4008 error"
+        #
+        # task = asyncio.create_task(receive())
+        # send_result, item = await asyncio.gather(send(), task)
+        item = "hamburger"
 
     return item

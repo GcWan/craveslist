@@ -50,7 +50,5 @@ def index():
 #             yield '%s<br/>\n' % x
 #     return Response(inner(), mimetype='text/html')  # text/html is required for most browsers to show the partial page immediately
 
-app.run(debug=True)
-
 if __name__ == "__main__":
     app.run(debug=True)
